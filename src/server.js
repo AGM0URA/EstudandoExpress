@@ -1,25 +1,29 @@
-import "dotenv/config";
-import express from "express";
+import 'dotenv/config';
+import express from 'express';
 
-//conexão
-import conn from "./config/conn.js";
+// Conexão com o banco de dados MySQL
+import conn from './config/conn.js';
 
-//importação modulos para criar tabelas
-import "./models/livroModel.js";
-import "./models/funcionarioModel.js"
+// Importação dos modelos para criar tabelas
+import './models/livroModel.js';
+import './models/funcionarioModel.js';
 
-//importação das rotas 
-import livrosRoutes from "./routes/livroRouts.js"
-
+// Importação das rotas
+import livrosRoutes from './routes/livroRouts.js';
+import funcionariosRoutes from './routes/funcionariosRouts.js';
 
 const PORT = process.env.PORT;
 
 const app = express();
+app.use(express.urlencoded({ extended: true }));
+app.use(express.json());
 
-app.get("/", (request, response) => {
-  response.send("ola mundo");
-});
+// Rotas para livros
+app.use('/livros', livrosRoutes);
+
+// Rotas para funcionários
+app.use('/funcionarios', funcionariosRoutes);
 
 app.listen(PORT, () => {
-  console.log("Sevidor on PORT 😎 " + PORT);
+  console.log(`Servidor rodando na porta ${PORT}`);
 });

@@ -1,21 +1,13 @@
-import {Router } from "express";
-import conn from "../config/conn.js";
+// routes/livroRoutes.js
+import { Router } from 'express';
+import { getLivros, cadastrarLivros, buscarLivros, editarLivros, removerLivros } from '../controller/livrosController.js';
 
+const router = Router();
 
-const router = Router()
+router.get('/', getLivros);
+router.post('/criar', cadastrarLivros);
+router.get('/:id', buscarLivros); // Alterado para usar GET para buscar por ID
+router.put('/editar/:id', editarLivros);
+router.delete('/remover/:id', removerLivros); // Utilizando DELETE para remover por ID
 
-router.get("/",(request,response)=>{
-    const sql = `SELECT * FROM LIVROS`
-
-    conn.query(sql,(err,data)=>{
-
-        if(err){
-            response.status(500).json({msg:"erro ao buscar livros"})
-            return
-        }
-        const livros = data
-        response.status(200).json(livros)
-    })
-})
-
-export default router
+export default router;
